@@ -72,6 +72,6 @@ void winCheck(){
 }
 int main() {
 	for(turn=1;turn<17;turn++){move(1); move(2);}
-	winCheck();
+	winCheck(); getchar(); getchar();
 	return 0;
 }
