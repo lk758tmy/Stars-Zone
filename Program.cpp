@@ -22,7 +22,7 @@ void print(int pl,int end){
 	}}
 	if(end==0){
 		printf("\nTurn %d/16, %c to move.",turn,(pl==1)?'O':'X');
-		printf("\nNeutral Pieces Remain: %d\n",neuCnt[pl]);
+		printf("\nNeutral Stones Remain: %d\n",neuCnt[pl]);
 	}else if(end==3)  printf("\nGame ends in draw\n");
 	else printf("\nGame ends. %c Wins.\n",(end==1)?'O':'X');
 	return ;
@@ -71,6 +71,11 @@ void winCheck(){
 	return;
 }
 int main() {
+	printf("Number of Neutral Stones (per player)\n");
+	printf("(0~11, Default:5, Recommend:4~6)>>");
+	scanf("%d",&neuCnt[0]);
+	if(neuCnt[0]>-1&&neuCnt[0]<12) neuCnt[1]=neuCnt[0];
+	else neuCnt[0]=neuCnt[1]=5;
 	for(turn=1;turn<17;turn++){move(1); move(2);}
 	winCheck(); getchar(); getchar();
 	return 0;
