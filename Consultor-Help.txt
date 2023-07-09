@@ -1,0 +1,13 @@
+Input (in.txt) format:
+1 number indicates how many own-stones
+coordinates of each own-stone (2 numbers each, from 1 to 9, row first and col second)
+1 number indicates how many opponent's own-stones
+same as above
+1 number indicates how many neutral-stones
+same as above
+
+Output format:
+Values of each place on the board.
+Form-1 only consider to score most points as possible. (1000 tries)
+Form-2 only consider to let opponent score least points as possible. (1000 tries)
+Form-3 is the sum of above. But may not be the best, since there might be an inequal rate. 
