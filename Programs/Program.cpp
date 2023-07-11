@@ -11,7 +11,8 @@ int neuCnt[2]={5,5},turn;
 int dirX[4]={1,0,0,-1},dirY[4]={0,1,-1,0};
 void print(int pl,int end){
 	system("cls"); char c;
-	printf("Stars' Zone\n  A B C D E F G H I");
+	//printf("Stars' Zone\n  A B C D E F G H I");
+	printf("Stars' Zone\n  1 2 3 4 5 6 7 8 9");
 	for(int i=1;i<10;i++){
 		printf("\n%d",i);
 		for(int j=1;j<10;j++){
@@ -28,18 +29,24 @@ void print(int pl,int end){
 	return ;
 }
 void move(int pl){
-	char _pos1,_pos2; int posI,posJ; print(pl,0);
+	/*char _pos1,_pos2;*/ int posI,posJ; print(pl,0);
 	INPUT1:
-	fflush(stdin); printf(">>"); scanf("%c%c",&_pos1,&_pos2);
-	posI=_pos2-'0'; posJ=_pos1-'A'+1;
+	printf("[Input Format] Row Col\n>>");
+	fflush(stdin); //printf(">>"); scanf("%c%c",&_pos1,&_pos2);
+	//posI=_pos2-'0'; posJ=_pos1-'A'+1;
+	scanf("%d%d",&posI,&posJ);
 	if(abs(5-posI)>4||abs(5-posJ)>4||board[posI][posJ]!=0){
 		printf("Wrong Position! "); goto INPUT1;}
 	board[posI][posJ]=pl;
 	if(neuCnt[pl-1]==0) return ;
 	print(pl,0); INPUT2:
-	fflush(stdin); printf(">>"); scanf("%c%c",&_pos1,&_pos2);
-	if(_pos1=='X'||_pos1=='x') return ;
-	posI=_pos2-'0'; posJ=_pos1-'A'+1;
+	fflush(stdin); //printf(">>"); scanf("%c%c",&_pos1,&_pos2);
+	//if(_pos1=='X'||_pos1=='x') return ;
+	//posI=_pos2-'0'; posJ=_pos1-'A'+1;
+	printf("[Input Format] Row Col\n");
+	printf("Or input \"0\" to pass.\n>>");
+	scanf("%d",&posI); if(posI==0) return ;
+	scanf("%d",&posJ);
 	if(abs(5-posI)>4||abs(5-posJ)>4||board[posI][posJ]!=0){
 		printf("Wrong Position! "); goto INPUT2;}
 	neuCnt[pl-1]--; board[posI][posJ]=3;

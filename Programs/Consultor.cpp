@@ -98,6 +98,27 @@ void solve(int side){
 		value[vside][starX[i]][starY[i]]*=v;
 	return ;
 }
+void print(){
+	for(int i=1;i<10;i++){
+		for(int j=1;j<10;j++) printf("%.2f\t",value[0][i][j]);
+		printf("\n");
+	} printf("\n");
+	for(int i=1;i<10;i++){
+		for(int j=1;j<10;j++) printf("%.2f\t",value[1][i][j]);
+		printf("\n");
+	} printf("\n");
+	for(int i=1;i<10;i++){
+		for(int j=1;j<10;j++)
+			printf("%.2f\t",value[1][i][j]+value[0][i][j]);
+		printf("\n");
+	} printf("\n");
+	for(int i=1;i<10;i++){
+		for(int j=1;j<10;j++)
+			printf("%.2f\t",value[1][i][j]-value[0][i][j]);
+		printf("\n");
+	}
+	return ;
+}
 int main() {
 	freopen("\in.txt","r",stdin);
 	freopen("\out.txt","w",stdout);
@@ -111,19 +132,7 @@ int main() {
 	srand(time(0)); solve(1); solve(2);
 	for(int i=1;i<10;i++) for(int j=1;j<10;j++){
 		value[0][i][j]*=0.001; value[1][i][j]*=0.001;
-	}
-	for(int i=1;i<10;i++){
-		for(int j=1;j<10;j++) printf("%.2f\t",value[0][i][j]);
-		printf("\n");
-	} printf("\n");
-	for(int i=1;i<10;i++){
-		for(int j=1;j<10;j++) printf("%.2f\t",value[1][i][j]);
-		printf("\n");
-	} printf("\n");
-	for(int i=1;i<10;i++){
-		for(int j=1;j<10;j++)
-			printf("%.2f\t",value[1][i][j]+value[0][i][j]);
-		printf("\n");
-	}
+	}	
+	print();
 	return 0;
 }
