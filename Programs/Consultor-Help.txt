@@ -1,3 +1,6 @@
+Why no commentary in the code?
+This program uses an algorithm that is the simplified version of the Starmaps Generator, which is in another library of mine. You can see the commentary there if you need.
+
 Input (in.txt) format:
 1 number indicates how many own-stones
 coordinates of each own-stone (2 numbers each, from 1 to 9, row first and col second)
