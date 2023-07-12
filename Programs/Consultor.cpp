@@ -42,7 +42,7 @@ void changeboard(int id,int ex,int ey,int side){
 	nboard[ex][ey]=side; starX[id]=ex; starY[id]=ey;
 	return ;
 }
-int rmove(int height,int side,int fbegin){
+int rmove(int height,int side,int fbegin,int M){
 	int nheight,num=16-fbegin,id[2],sx[2],sy[2],ex[2],ey[2];
 	id[0]=fbegin+rand()%num; id[1]=fbegin+rand()%(num-1);
 	if(id[1]==id[0]) id[1]++;
@@ -54,7 +54,7 @@ int rmove(int height,int side,int fbegin){
 		changeboard(id[i],ex[i],ey[i],side);
 	}
 	nheight=check(side);
-	if(nheight<height||(nheight==height&&height<14)){
+	if(nheight<height||(nheight==height&&height<M-2)){
 		for(int i=1;i>-1;i--)
 			changeboard(id[i],sx[i],sy[i],side);
 	}
@@ -63,14 +63,14 @@ int rmove(int height,int side,int fbegin){
 	for(int i=1;i>-1;i--) changeboard(id[i],sx[i],sy[i],side);	
 	return -1;
 }
-void solve(int side){
+int solve(int side,int M){
 	int vside=side-1,cnt=0,ncnt,height,nheight,cnt1,cnt2;
 	int maxheight=-1; double v;
 	for(int i=1;i<10;i++) for(int j=1;j<10;j++){
 		if(board[i][j]==side){
 			starX[cnt]=i; starY[cnt]=j; cnt++;
 	}}
-	for(int k=0;k<10000;k++){
+	for(int k=0;k<1000;k++){
 		ncnt=cnt;
 		for(int i=0;i<11;i++) for(int j=0;j<11;j++)
 			nboard[i][j]=board[i][j];
@@ -82,21 +82,21 @@ void solve(int side){
 		height=check(side); cnt2=0;
 		do{
 			for(cnt1=0;cnt1<15000;cnt1++){
-				nheight=rmove(height,side,cnt);
-				if(nheight>height||(height>13&&nheight==height)){
+				nheight=rmove(height,side,cnt,M);
+				if(nheight>height||(height>(M-3)&&nheight==height)){
 					height=nheight; cnt2++; break;
 			}}
-			if(height==16) break; cnt2++;
+			if(height==M) break; cnt2++;
 		}while(cnt2<200);
 		if(height>maxheight) maxheight=height;
-		v=pow(10,(height-16)*4);
+		v=pow(10,(height-16)*3);
 		for(int i=cnt;i<16;i++)
 			value[vside][starX[i]][starY[i]]+=v;
 	}
-	v=pow(10,(16-maxheight)*4);
-	for(int i=0;i<11;i++) for(int j=0;j<11;j++)
-		value[vside][starX[i]][starY[i]]*=v;
-	return ;
+	v=pow(10,(16-maxheight)*3);
+	for(int i=1;i<10;i++) for(int j=1;j<10;j++)
+		value[vside][i][j]*=v;
+	return maxheight;
 }
 void print(){
 	for(int i=1;i<10;i++){
@@ -122,16 +122,18 @@ void print(){
 int main() {
 	freopen("\in.txt","r",stdin);
 	freopen("\out.txt","w",stdout);
-	int a,b,c;
+	int a,b,c,M[2];
 	for(int k=1;k<4;k++){
 		scanf("%d",&a);
 		for(int i=0;i<a;i++){
 			scanf("%d%d",&b,&c);
 			board[b][c]=k;
 	}}
-	srand(time(0)); solve(1); solve(2);
+	scanf("%d%d",&M[0],&M[1]);
+	srand(time(0));
+	printf("%d %d\n",solve(1,M[0]),solve(2,M[1]));
 	for(int i=1;i<10;i++) for(int j=1;j<10;j++){
-		value[0][i][j]*=0.001; value[1][i][j]*=0.001;
+		value[0][i][j]*=0.01; value[1][i][j]*=0.01;
 	}	
 	print();
 	return 0;
