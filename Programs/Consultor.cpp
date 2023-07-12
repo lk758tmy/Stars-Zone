@@ -20,7 +20,7 @@ int track(int x,int y,int side){
 		flag=false; tx=x; ty=y;
 		while(1){
 			tx+=dirX[i]; ty+=dirY[i];
-			if(nboard[tx][ty]>=3) break;
+			if(nboard[tx][ty]==4) break;
 			if(nboard[tx][ty]==side){ flag=true; break;
 		}}
 		if(flag==true) star+=(1<<i);
@@ -63,6 +63,22 @@ int rmove(int height,int side,int fbegin,int M){
 	for(int i=1;i>-1;i--) changeboard(id[i],sx[i],sy[i],side);	
 	return -1;
 }
+int solve15(int side){
+	int maxheight=-1,height[11][11];
+	for(int i=0;i<11;i++) for(int j=0;j<11;j++)
+		height[i][j]=-1;
+	for(int i=1;i<10;i++) for(int j=1;j<10;j++){
+		if(nboard[i][j]==0){
+			nboard[i][j]=side; height[i][j]=check(side);
+			if(height[i][j]>maxheight) maxheight=height[i][j];
+			nboard[i][j]=0;
+		}
+	}
+	for(int i=1;i<10;i++) for(int j=1;j<10;j++)
+		if(height[i][j]==maxheight)
+			value[side-1][i][j]=1000;
+	return maxheight;
+}
 int solve(int side,int M){
 	int vside=side-1,cnt=0,ncnt,height,nheight,cnt1,cnt2;
 	int maxheight=-1; double v;
@@ -70,10 +86,12 @@ int solve(int side,int M){
 		if(board[i][j]==side){
 			starX[cnt]=i; starY[cnt]=j; cnt++;
 	}}
-	for(int k=0;k<1000;k++){
+	for(int i=0;i<11;i++) for(int j=0;j<11;j++)
+		nboard[i][j]=board[i][j];
+	if(cnt==16) return check(side);
+	if(cnt==15) return solve15(side);
+	for(int k=0;k<10000;k++){
 		ncnt=cnt;
-		for(int i=0;i<11;i++) for(int j=0;j<11;j++)
-			nboard[i][j]=board[i][j];
 		while(ncnt<16){
 			starX[ncnt]=rand()%9+1; starY[ncnt]=rand()%9+1;
 			if(nboard[starX[ncnt]][starY[ncnt]]==0){
@@ -89,11 +107,11 @@ int solve(int side,int M){
 			if(height==M) break; cnt2++;
 		}while(cnt2<200);
 		if(height>maxheight) maxheight=height;
-		v=pow(10,(height-16)*3);
+		v=pow(10,(height-16)*4);
 		for(int i=cnt;i<16;i++)
 			value[vside][starX[i]][starY[i]]+=v;
 	}
-	v=pow(10,(16-maxheight)*3);
+	v=pow(10,(16-maxheight)*4);
 	for(int i=1;i<10;i++) for(int j=1;j<10;j++)
 		value[vside][i][j]*=v;
 	return maxheight;
@@ -133,7 +151,7 @@ int main() {
 	srand(time(0));
 	printf("%d %d\n",solve(1,M[0]),solve(2,M[1]));
 	for(int i=1;i<10;i++) for(int j=1;j<10;j++){
-		value[0][i][j]*=0.01; value[1][i][j]*=0.01;
+		value[0][i][j]*=0.001; value[1][i][j]*=0.001;
 	}	
 	print();
 	return 0;
