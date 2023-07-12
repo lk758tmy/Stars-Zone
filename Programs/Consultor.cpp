@@ -106,10 +106,13 @@ int solve(int side,int M){
 			}}
 			if(height==M) break; cnt2++;
 		}while(cnt2<200);
+		//printf("%d %d %d\n",k,height,cnt2);
 		if(height>maxheight) maxheight=height;
 		v=pow(10,(height-16)*4);
 		for(int i=cnt;i<16;i++)
 			value[vside][starX[i]][starY[i]]+=v;
+		for(int i=0;i<11;i++) for(int j=0;j<11;j++)
+			nboard[i][j]=board[i][j];
 	}
 	v=pow(10,(16-maxheight)*4);
 	for(int i=1;i<10;i++) for(int j=1;j<10;j++)
