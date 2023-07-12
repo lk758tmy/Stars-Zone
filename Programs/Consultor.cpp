@@ -1,4 +1,3 @@
-#pragma GCC optimize(3)
 #include <cstdio>
 #include <ctime>
 #include <random>
@@ -10,7 +9,7 @@ int board[11][11]={{4,4,4,4,4,4,4,4,4,4,4},
 	{4,0,0,0,0,3,0,0,0,0,4},{4,4,0,0,0,0,0,0,0,0,4},
 	{4,4,0,0,0,0,0,0,0,4,4},{4,4,0,0,0,0,0,0,4,4,4},
 	{4,4,4,4,4,0,0,4,4,4,4},{4,4,4,4,4,4,4,4,4,4,4}};
-int nboard[11][11],starX[16],starY[16],stars[16];
+int nboard[11][11],starX[16],starY[16],stars[16],kMax;
 double value[2][11][11];
 //0=empty 1=own 2=opponent's 3=neutral 4=wall
 const int dirX[4]={1,0,0,-1},dirY[4]={0,1,-1,0};
@@ -65,7 +64,7 @@ int rmove(int height,int side,int fbegin,int M){
 }
 int solve15(int side){
 	int maxheight=-1,height[11][11];
-	for(int i=0;i<11;i++) for(int j=0;j<11;j++)
+	for(int i=1;i<10;i++) for(int j=1;j<10;j++)
 		height[i][j]=-1;
 	for(int i=1;i<10;i++) for(int j=1;j<10;j++){
 		if(nboard[i][j]==0){
@@ -76,7 +75,7 @@ int solve15(int side){
 	}
 	for(int i=1;i<10;i++) for(int j=1;j<10;j++)
 		if(height[i][j]==maxheight)
-			value[side-1][i][j]=1000;
+			value[side-1][i][j]=10;
 	return maxheight;
 }
 int solve(int side,int M){
@@ -90,7 +89,7 @@ int solve(int side,int M){
 		nboard[i][j]=board[i][j];
 	if(cnt==16) return check(side);
 	if(cnt==15) return solve15(side);
-	for(int k=0;k<10000;k++){
+	for(int k=0;k<kMax;k++){
 		ncnt=cnt;
 		while(ncnt<16){
 			starX[ncnt]=rand()%9+1; starY[ncnt]=rand()%9+1;
@@ -102,21 +101,24 @@ int solve(int side,int M){
 			for(cnt1=0;cnt1<15000;cnt1++){
 				nheight=rmove(height,side,cnt,M);
 				if(nheight>height||(height>(M-3)&&nheight==height)){
-					height=nheight; cnt2++; break;
+					height=nheight; break;
 			}}
-			if(height==M) break; cnt2++;
+			if(height>=M) break; cnt2++;
 		}while(cnt2<200);
 		//printf("%d %d %d\n",k,height,cnt2);
 		if(height>maxheight) maxheight=height;
-		v=pow(10,(height-16)*4);
+		v=pow(kMax,height-16);
 		for(int i=cnt;i<16;i++)
 			value[vside][starX[i]][starY[i]]+=v;
 		for(int i=0;i<11;i++) for(int j=0;j<11;j++)
 			nboard[i][j]=board[i][j];
 	}
-	v=pow(10,(16-maxheight)*4);
+	v=pow(kMax,16-maxheight);
 	for(int i=1;i<10;i++) for(int j=1;j<10;j++)
 		value[vside][i][j]*=v;
+	for(int i=1;i<10;i++) for(int j=1;j<10;j++){
+		value[vside][i][j]/=(kMax/10.0);
+	}
 	return maxheight;
 }
 void print(){
@@ -143,6 +145,7 @@ void print(){
 int main() {
 	freopen("\in.txt","r",stdin);
 	freopen("\out.txt","w",stdout);
+	scanf("%d",&kMax);
 	int a,b,c,M[2];
 	for(int k=1;k<4;k++){
 		scanf("%d",&a);
@@ -152,10 +155,7 @@ int main() {
 	}}
 	scanf("%d%d",&M[0],&M[1]);
 	srand(time(0));
-	printf("%d %d\n",solve(1,M[0]),solve(2,M[1]));
-	for(int i=1;i<10;i++) for(int j=1;j<10;j++){
-		value[0][i][j]*=0.001; value[1][i][j]*=0.001;
-	}	
+	printf("%d %d\n",solve(1,M[0]),solve(2,M[1]));	
 	print();
 	return 0;
 }

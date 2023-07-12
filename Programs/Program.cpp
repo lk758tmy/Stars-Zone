@@ -79,10 +79,10 @@ void winCheck(){
 }
 int main() {
 	printf("Number of Neutral Stones (per player)\n");
-	printf("(0~11, Default:5, Recommend:4~6)>>");
+	printf("(0~11, Default:6, Recommend:5~8)>>");
 	scanf("%d",&neuCnt[0]);
 	if(neuCnt[0]>-1&&neuCnt[0]<12) neuCnt[1]=neuCnt[0];
-	else neuCnt[0]=neuCnt[1]=5;
+	else neuCnt[0]=neuCnt[1]=6;
 	for(turn=1;turn<17;turn++){move(1); move(2);}
 	winCheck(); getchar(); getchar();
 	return 0;
