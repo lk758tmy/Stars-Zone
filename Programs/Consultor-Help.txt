@@ -11,7 +11,7 @@ same as above
 
 Output format:
 Values of each place on the board.
-Form 1 only consider to score most points as possible. (1000 tries)
-Form 2 only consider to let opponent score least points as possible. (1000 tries)
+Form 1 only consider to score most points as possible. (10000 tries)
+Form 2 only consider to let opponent score least points as possible. (10000 tries)
 Form 3 is the sum of 1 and 2. But may not be the best, since there could be an inequal ratio. 
 Form 4 is the difference of 1 and 2. But may not be the best for the same reason.
