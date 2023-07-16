@@ -15,7 +15,6 @@ same as above
 
 Output format:
 2 numbers show the largest possible score for self/opponent.
-**There's a bug here** //TODO
 Values of each place on the board.
 Form 1 only consider to score most points as possible.
 Form 2 only consider to let opponent score least points as possible.

@@ -66,13 +66,21 @@ int solve15(int side){
 	int maxheight=-1,height[11][11];
 	for(int i=1;i<10;i++) for(int j=1;j<10;j++)
 		height[i][j]=-1;
-	for(int i=1;i<10;i++) for(int j=1;j<10;j++){
+	for(int i=1;i<10;i++) for(int j=1;j<10;j++)
 		if(nboard[i][j]==0){
-			nboard[i][j]=side; height[i][j]=check(side);
+			nboard[i][j]=side; starX[15]=i; starY[15]=j;
+			height[i][j]=check(side);
 			if(height[i][j]>maxheight) maxheight=height[i][j];
+			if(height[i][j]==15){
+				printf("%d %d\n",i,j);
+				for(int ii=1;ii<10;ii++){
+					for(int jj=1;jj<10;jj++)
+						printf("%d ",nboard[ii][jj]);
+					printf("\n");
+				}
+			}
 			nboard[i][j]=0;
 		}
-	}
 	for(int i=1;i<10;i++) for(int j=1;j<10;j++)
 		if(height[i][j]==maxheight)
 			value[side-1][i][j]=10;
