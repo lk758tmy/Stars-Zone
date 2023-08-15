@@ -23,7 +23,7 @@ void print(int pl,int end){
 	}}
 	if(end==0){
 		printf("\nTurn %d/16, %c to move.",turn,(pl==1)?'O':'X');
-		printf("\nNeutral Stones Remain: %d\n",neuCnt[pl]);
+		printf("\nNeutral Stones Remain: %d\n",neuCnt[pl-1]);
 	}else if(end==3)  printf("\nGame ends in draw\n");
 	else printf("\nGame ends. %c Wins.\n",(end==1)?'O':'X');
 	return ;
@@ -44,7 +44,7 @@ void move(int pl){
 	//if(_pos1=='X'||_pos1=='x') return ;
 	//posI=_pos2-'0'; posJ=_pos1-'A'+1;
 	printf("[Input Format] Row Col\n");
-	printf("Or input \"0\" to pass.\n>>");
+	printf("Input \"0\" to pass.\n>>");
 	scanf("%d",&posI); if(posI==0) return ;
 	scanf("%d",&posJ);
 	if(abs(5-posI)>4||abs(5-posJ)>4||board[posI][posJ]!=0){
